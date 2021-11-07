@@ -3,7 +3,7 @@ package com.bridgelabz.invoicegenerator;
 /**
  * Invoice Generator class
  */
-public class InvoiceGenerator {
+public class InvoiceService {
 
     private static final double MINIMUM_COST_PER_KILOMETER = 10;
     private static final int COST_PER_TIME = 1;
@@ -25,11 +25,11 @@ public class InvoiceGenerator {
      * @param rides ->Array and for each loop used
      * @return -> total Fare
      */
-    public double calculateFare(Ride[] rides) {
+    public InvoiceSummary calculateFare(Ride[] rides) {
         double totalFare = 0;
         for (Ride ride : rides) {
             totalFare += this.calculateFare(ride.distance, ride.time);
         }
-        return totalFare;
+        return new InvoiceSummary(rides.length, totalFare);
     }
 }
