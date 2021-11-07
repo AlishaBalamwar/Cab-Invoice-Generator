@@ -26,24 +26,28 @@ public class InvoiceServiceTest {
     @Test
     public void givenMultipleRides_ShouldReturnInvoiceSummary() {
         InvoiceService invoiceService = new InvoiceService();
-        Ride[] rides = {new Ride(2.0, 5),
-                new Ride(0.1, 1)
+        RideRepository rideRepository = new RideRepository();
+        invoiceService.setRideRepository(rideRepository);
+        Ride[] rides = {new Ride(CabRide.NORMAL, 2.0, 5),
+                new Ride(CabRide.PREMIUM, 0.1, 1)
         };
         InvoiceSummary summary = invoiceService.calculateFare(rides);
-        InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 30.0);
+        InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 45.0);
         Assert.assertEquals(expectedInvoiceSummary, summary);
     }
 
     @Test
     public void givenUserIdAndRides_ShouldReturnInvoiceSummary() {
-        String userId = "Ali";
-        Ride[] rides = {new Ride(2.0, 5),
-                new Ride(0.1, 1)
-        };
+        String userId = "Alisha";
+        RideRepository rideRepository = new RideRepository();
         InvoiceService invoiceService = new InvoiceService();
+        invoiceService.setRideRepository(rideRepository);
+        Ride[] rides = {new Ride(CabRide.NORMAL, 2.0, 5),
+                new Ride(CabRide.PREMIUM, 0.1, 1)
+        };
         invoiceService.addRides(userId, rides);
         InvoiceSummary summary = invoiceService.getInvoiceSummary(userId);
-        InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 30.0);
+        InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 45.0);
         Assert.assertEquals(expectedInvoiceSummary, summary);
 
     }
